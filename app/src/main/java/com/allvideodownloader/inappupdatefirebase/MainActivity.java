@@ -1,6 +1,7 @@
 package com.allvideodownloader.inappupdatefirebase;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,14 +21,24 @@ import android.widget.Toast;
 import com.developer.kalert.KAlertDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.util.HashMap;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ValueEventListener {
     private FirebaseRemoteConfig remoteConfig;
+
+    private FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference=firebaseDatabase.getReference();
+    private DatabaseReference firstdatabase=databaseReference.child("apppackage");
+    String apppack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(KAlertDialog kAlertDialog) {
 
-                Uri uri = Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName());
+                Uri uri = Uri.parse("http://play.google.com/store/apps/details?id=" + apppack);
                 Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 
                 goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
@@ -83,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(goToMarket);
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+                            Uri.parse("http://play.google.com/store/apps/details?id=" +apppack)));
                 }
 
 
@@ -133,5 +144,32 @@ public class MainActivity extends AppCompatActivity {
         }
 return Objects.requireNonNull(packageInfo).versionCode;
 
+    }
+
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+        if (snapshot.getValue(String.class)!=null){
+            String key=snapshot.getKey();
+
+            if (key.equals("apppackage")){
+                String packname=snapshot.getValue(String.class);
+                apppack=packname;
+
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firstdatabase.addValueEventListener(this);
     }
 }
