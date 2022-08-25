@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "763872338831",
+    "project_id": "inappupdatefirebase",
+    "storage_bucket": "inappupdatefirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763872338831:android:a17e04dc6f9af152a3a1fa",
+        "android_client_info": {
+          "package_name": "com.allvideodownloader.inappupdatefirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763872338831-kco4rk6b71fo33n5aqcjfavsk5vk9r66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhiR9t6SVP4bWjpiVDYT7LBlhpBXk8c4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "763872338831-kco4rk6b71fo33n5aqcjfavsk5vk9r66.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
